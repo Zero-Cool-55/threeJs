@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Map example</title>
+	<style type="text/css">
+		body{
+			margin:0px;
+			padding:0px;
+			overflow: none;
+		}
+	</style>
+	<script type="text/javascript" src="three.min.js"></script>
+	<script src="three.js-master/examples/js/renderers/Projector.js"></script>
+	<script src="three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	// setup
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.5,1000);
+	camera.position.z = 500;
+	// renderer
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setClearColor(0x000000,1);
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+	// texture
+	var loader =  new THREE.TextureLoader();
+	loader.load('images/map.jpg',function(texture){
+		var geometry = new THREE.SphereGeometry(200,20,20);
+		var material = new THREE.MeshBasicMaterial({map:texture});
+		//material.wireframe = true;
+		var mesh = new THREE.Mesh(geometry,material);
+		scene.add(mesh);
+	});
+	// render
+	function render(){
+		requestAnimationFrame(render);
+		scene.rotation.y	 -= 0.01;
+		renderer.render(scene, camera);
+	}
+	render();
+</script>
+</body>
+</html>
