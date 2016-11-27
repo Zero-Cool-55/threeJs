@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Particles example</title>
+	<style type="text/css">
+		body{
+			overflow: hidden;
+			margin:0px;
+			padding: 0px;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript" src="three.min.js"></script>
+	<script src="three.js-master/examples/js/controls/OrbitControls.js"></script>
+<script type="text/javascript">
+// setup 
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.5,1000);
+//camera.position.z = 150;
+camera.position.set(0,0,150);
+// particles
+var total =1000;
+var particles = new THREE.Geometry();
+var particlesMaterial = new THREE.ParticleBasicMaterial({color:0xffffff,size:3,vertexColors:true});
+for(var i =0;i < total; i++){
+	var x = Math.random()*500-250;
+	var y = Math.random()*500-250;
+	var z = Math.random()*500-250;
+	var color = new THREE.Color(Math.random() * 0xffffff);
+	var vertex = new THREE.Vector3(x,y,z);
+	particles.vertices.push(vertex);
+	particles.colors.push(color);
+}
+var particleSystem = new THREE.ParticleSystem(particles, particlesMaterial);
+scene.add(particleSystem);
+// renderer
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+function render(){
+	requestAnimationFrame(render);
+	renderer.render(scene, camera);
+	scene.rotation.y += 0.005;
+	scene.rotation.x += 0.005;
+	scene.rotation.z += 0.005;
+}
+render();
+</script>
+</body>
+</html>
